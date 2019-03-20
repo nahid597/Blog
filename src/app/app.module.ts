@@ -15,6 +15,7 @@ import { PostCreateComponent } from './posts/post-create/post-create.component';
 import {FormsModule} from '@angular/forms'
 import { HeaderComponent } from './header/header.component';
 import { ListPostComponent } from './posts/list-post/list-post.component';
+import { HttpClientModule } from '@angular/common/http';
 
 
 
@@ -33,7 +34,8 @@ import { ListPostComponent } from './posts/list-post/list-post.component';
     MatCardModule,
     MatButtonModule,
     MatToolbarModule,
-    MatExpansionModule
+    MatExpansionModule,
+    HttpClientModule
     
   ],
   providers: [],

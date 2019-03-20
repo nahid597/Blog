@@ -17,7 +17,8 @@ export class PostCreateComponent {
     enterContent = '';
     //@Output() createPost = new EventEmitter<Post>();
     
-    onAddPost(form:NgForm) {
+    id = "sdfasafsa222"
+   public onAddPost(form:NgForm) {
       this.postService.addPost(form.value.title, form.value.content );
      form.resetForm();
     }
