@@ -5,7 +5,8 @@ import{
    MatCardModule,
    MatButtonModule,
    MatToolbarModule,
-   MatExpansionModule
+   MatExpansionModule,
+   MatProgressSpinnerModule
   } from '@angular/material';
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 
@@ -16,6 +17,7 @@ import {FormsModule} from '@angular/forms'
 import { HeaderComponent } from './header/header.component';
 import { ListPostComponent } from './posts/list-post/list-post.component';
 import { HttpClientModule } from '@angular/common/http';
+import { AppRoutingModule } from './app-routing.module';
 
 
 
@@ -28,6 +30,7 @@ import { HttpClientModule } from '@angular/common/http';
   ],
   imports: [
     BrowserModule,
+    AppRoutingModule,
     FormsModule,
     MatInputModule,
     BrowserAnimationsModule,
@@ -35,7 +38,8 @@ import { HttpClientModule } from '@angular/common/http';
     MatButtonModule,
     MatToolbarModule,
     MatExpansionModule,
-    HttpClientModule
+    HttpClientModule,
+    MatProgressSpinnerModule
     
   ],
   providers: [],
