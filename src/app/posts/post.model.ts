@@ -1,7 +1,8 @@
 
  export interface Post {
-     [x: string]: any;
+    [x: string] : any,
     id: string,
     title: string,
-    content: string
+    content: string,
+    imagePath: string
 }

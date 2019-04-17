@@ -3,6 +3,7 @@ const express = require('express');
 const bodyParser = require('body-parser');
 const mongoose = require('mongoose');
 const debug = require('debug')('app:blog');
+const path = require('path');
 
 const postRouter = require('./routes/posts');
 
@@ -21,6 +22,9 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 
 
+app.use("/images",express.static(path.join("backend/images")));
+
+
 app.use((req, res, next) => {
 
     res.setHeader("Access-Control-Allow-Origin", "*");
@@ -36,7 +40,7 @@ app.use((req, res, next) => {
 
 app.use('/api/posts', postRouter);
 
-
+// /home/nahid/program/MEAN/Messenger/backend/images/screenshot-from-2019-02-22-23-53-16.png-1555446221971.png
 
 
 module.exports = app;

@@ -1,11 +1,18 @@
 
+
 <mat-spinner *ngIf = "isLoading"></mat-spinner>
+
+
 
 <mat-accordion multi = "true" *ngIf = "posts.length > 0 && !isLoading">
     <mat-expansion-panel *ngFor = "let post of posts">
       <mat-expansion-panel-header>
           {{post.title}}
       </mat-expansion-panel-header>
+
+      <div class="image-view">
+         <img src="{{post.imagePath}}" alt="post.titile">
+      </div>
         <p>
           {{post.content}}
         </p>

@@ -8,3 +8,16 @@ textarea {
 mat-spinner {
     margin: auto;
 }
+
+ input[type = "file"] {
+    visibility: hidden;
+} 
+
+.imagePreviewClass {
+    height: 5rem;
+    margin: 1rem 0;
+}
+
+.imagePreviewClass img {
+    height: 100%;
+}
