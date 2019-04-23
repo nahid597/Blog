@@ -7,6 +7,8 @@ const Post = require('../models/post');
 
 const multer = require('multer');
 
+const cehckAuth = require('../middleware/check-auth');
+
 // const mime_type_variable = {
 //     'images/png': 'png',
 //     'images/jpeg': 'jpg',
@@ -38,7 +40,7 @@ const storage = multer.diskStorage({
 })
 
 
-router.post('', multer({ storage: storage }).single("image"), (req, res, next) => {
+router.post('', cehckAuth , multer({ storage: storage }).single("image"), (req, res, next) => {
 
     const url = req.protocol + '://' + req.get("host");
      
@@ -107,7 +109,7 @@ router.get('/:id', (req, res, next) => {
     })
 });
 
-router.put('/:id', multer({ storage: storage }).single("image"), (req, res, next) => {
+router.put('/:id', cehckAuth, multer({ storage: storage }).single("image"), (req, res, next) => {
 
     let imagePath = req.body.imagePath;
 
@@ -134,7 +136,7 @@ router.put('/:id', multer({ storage: storage }).single("image"), (req, res, next
     });
 });
 
-router.delete('/:id', (req, res) => {
+router.delete('/:id', cehckAuth , (req, res) => {
     Post.deleteOne({_id:req.params.id})
     .then((result) => {
         //console.log(result);

@@ -6,6 +6,7 @@ const debug = require('debug')('app:blog');
 const path = require('path');
 
 const postRouter = require('./routes/posts');
+const singupRouter = require('./routes/user');
 
 
 const app = express();
@@ -30,7 +31,7 @@ app.use((req, res, next) => {
     res.setHeader("Access-Control-Allow-Origin", "*");
 
     res.setHeader("Access-Control-Allow-Headers",
-        "Origin, X-Requested-With, Content-Type, Accept ");
+        "Origin, X-Requested-With, Content-Type, Accept, Authorization");
 
     res.setHeader("Access-Control-Allow-Methods",
         "GET,POST, PATCH, PUT, DELETE, OPTIONS");
@@ -39,6 +40,7 @@ app.use((req, res, next) => {
 });
 
 app.use('/api/posts', postRouter);
+app.use('/api/user', singupRouter);
 
 // /home/nahid/program/MEAN/Messenger/backend/images/screenshot-from-2019-02-22-23-53-16.png-1555446221971.png
 
