@@ -28,7 +28,8 @@ export class PostService {
                     title: post.title,
                     content: post.content,
                     id: post._id,
-                    imagePath: post.imagePath
+                    imagePath: post.imagePath,
+                    creator: post.creator,
                     
                 };
             }),
@@ -43,7 +44,7 @@ export class PostService {
     };
 
     getUpdatePost(id: string) {
-        return this.http.get<{_id:string, title: string, content: string, imagePath: string}>("http://localhost:3000/api/posts/" + id);
+        return this.http.get<{_id:string, title: string, content: string, imagePath: string, creator: string}>("http://localhost:3000/api/posts/" + id);
     }
 
     public getPostUpdateListener(): Observable<{posts: Post[], countPosts: number }> {
@@ -86,13 +87,15 @@ export class PostService {
             postData.append("title", title);
             postData.append("content", content);
             postData.append("image", image);
+            
        }
        else {
              postData = {
                 id: id,
                 title: title,
                 content: content,
-                imagePath: image
+                imagePath: image,
+                creator: null
             }
        }
         this.http.put("http://localhost:3000/api/posts/" + id, postData)

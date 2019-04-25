@@ -47,8 +47,14 @@ router.post('', cehckAuth , multer({ storage: storage }).single("image"), (req, 
     const post = new Post({
         title: req.body.title,
         content: req.body.content,
-        imagePath: url + "/images/" + req.file.filename
+        imagePath: url + "/images/" + req.file.filename,
+        creator:req.userData.userId,
+      
     });
+
+    //console.log(req.userData);
+
+    //res.status(200).json({});
 
     post.save()
     .then((result) => {
@@ -125,24 +131,39 @@ router.put('/:id', cehckAuth, multer({ storage: storage }).single("image"), (req
         title: req.body.title,
         content: req.body.content,
         imagePath: imagePath,
+        creator: req.userData.userId
     });
 
    // console.log(post);
 
-    Post.updateOne({_id: req.params.id}, post )
+    Post.updateOne({_id: req.params.id , creator: req.userData.userId}, post )
     .then(result => {
-        //console.log(result);
-        res.status(200).json("updated successfully!..");
+       // console.log(result);
+       if(result.nModified > 0)
+       {
+            res.status(200).json("updated successfully!..");
+       }
+       else
+       {
+            res.status(401).json("unauthorized..");
+       }
+        
     });
 });
 
-router.delete('/:id', cehckAuth , (req, res) => {
-    Post.deleteOne({_id:req.params.id})
+router.delete('/:id', cehckAuth , (req, res, next) => {
+    Post.deleteOne({_id:req.params.id, creator: req.userData.userId})
     .then((result) => {
         //console.log(result);
-        res.status(200).json({
-            message: 'Delete successfully'
-        });
+
+        if(result.n > 0)
+       {
+            res.status(200).json("delete successfully!..");
+       }
+       else
+       {
+            res.status(401).json("unauthorized..");
+       }
     });
     
 });

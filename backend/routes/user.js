@@ -31,54 +31,60 @@
             });
         });
     });
-
-    router.post('/login', (req, res , next) => {
-
-        let fetchData;
-       
-        User.findOne({email: req.body.email})
-        .then(user => {
-            if(!user)
-            {
-                return res.status(404).json({
-                    message: 'Auth failed!'
-                });
-            }
-
-            fetchData = user;
-
-           return bcryptjs.compare(req.body.password, fetchData.password);
-        })
-        .then(result => {
-            if(!result)
-            {
-                return res.status(404).json({
-                    message: 'Auth failed!'
-                });
-            }
-
-           const token = jwt.sign({email:req.body.email, userId: fetchData._id}, "secret_should_more_difficult" , {
-                expiresIn: '1h'
-            });
-           
-
-           res.status(200).json({
-               token: token,
-               expiresIn: 3600,
-           });
-
-
-        })
-        .catch(err => {
-            return res.status(4041).json({
-                message: 'Auth failed!'
-            });
-        });
-
-    });
-
     
  });
+
+
+
+ router.post('/login', (req, res , next) => {
+
+    let fetchData;
+
+    console.log("nahid");
+   
+    User.findOne({email: req.body.email})
+    .then(user => {
+        //console.log(user);
+        if(!user)
+        {
+            return res.status(404).json({
+                message: 'Auth failed!'
+            });
+        }
+
+        fetchData = user;
+
+       return bcryptjs.compare(req.body.password, fetchData.password);
+    })
+    .then(result => {
+        if(!result)
+        {
+            return res.status(404).json({
+                message: 'Auth failed!'
+            });
+        }
+
+       const token = jwt.sign({email:req.body.email, userId: fetchData._id}, "secret_should_more_difficult" , {
+            expiresIn: '1h'
+        });
+       
+       // console.log(token);
+       res.status(200).json({
+           token: token,
+           expiresIn: 3600,
+           userId: fetchData._id,
+       });
+
+
+    })
+    .catch(err => {
+        //console.log(err);
+        return res.status(404).json({
+            message: 'Auth failed!'
+        });
+    });
+
+});
 
 
 module.exports = router;

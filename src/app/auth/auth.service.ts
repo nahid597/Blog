@@ -11,6 +11,7 @@ export class AuthService {
     private durationTimer : any;
     private isAuthenticated = false;
     private  token: string;
+    private userId: string;
     private authStatus = new Subject<boolean>();
 
     constructor(private http: HttpClient , private router: Router){}
@@ -30,6 +31,11 @@ export class AuthService {
         return this.isAuthenticated;
     }
 
+    getUserId()
+    {
+        return this.userId;
+    }
+
     
 
     createUser(email: string, password: string)
@@ -37,17 +43,22 @@ export class AuthService {
         const authData: AuthData = {email: email, password: password}
         this.http.post("http://localhost:3000/api/user/signup" , authData)
         .subscribe(response => {
-            console.log(response);
+           // console.log(response);
+            this.router.navigate(['']);
         })
     }
 
     login(email: string, password: string)
     {
         const authData: AuthData = {email: email,  password: password}
-        this.http.post<{token: string , expiresIn: number}>("http://localhost:3000/api/user/login" , authData)
+        this.http.post<{token: string , expiresIn: number, userId: string}>("http://localhost:3000/api/user/login" , authData)
         .subscribe(response => {
+            //console.log(response);
             const token = response.token;
+
             this.token = token;
+    
+            //console.log(this.token);
             if(token)
             {
                 const expireInDuration = response.expiresIn;
@@ -57,11 +68,12 @@ export class AuthService {
                }, expireInDuration * 1000);
 
                 this.isAuthenticated = true;
+                this.userId = response.userId;
                 this.authStatus.next(true);
                 const now = new Date();
                 const expirationDate = new Date( now.getTime() + expireInDuration * 1000);
-                console.log(expirationDate);
-                this.saveAuthDataInLocalStorage(token, expirationDate );
+                //console.log(expirationDate);
+                this.saveAuthDataInLocalStorage(token, expirationDate, this.userId );
                 this.router.navigate(['/']);
             }
         });
@@ -81,6 +93,7 @@ export class AuthService {
       {
           this.token = authInformation.token;
           this.isAuthenticated = true;
+          this.userId = authInformation.userId;
           this.setAuthTimer(expiresIn / 1000);
           this.authStatus.next(true);
       }
@@ -88,7 +101,7 @@ export class AuthService {
 
     private setAuthTimer(duration: number)
     {
-        console.log("setting time: " + duration);
+       // console.log("setting time: " + duration);
         this.durationTimer = setTimeout(() => {
             this.logout();
        }, duration * 1000);
@@ -101,25 +114,29 @@ export class AuthService {
         this.authStatus.next(false);
         clearTimeout(this.durationTimer);
         this.clearAuthDataInLocalStorage();
+        this.userId = null;
         this.router.navigate(['/']);
     }
 
-    private saveAuthDataInLocalStorage(token: string, expiretionDate: Date)
+    private saveAuthDataInLocalStorage(token: string, expiretionDate: Date, userId: string)
     {
         localStorage.setItem('token', token);
         localStorage.setItem('expire', expiretionDate.toISOString());
+        localStorage.setItem('userId', userId);
     }
 
     private clearAuthDataInLocalStorage()
     {
         localStorage.removeItem('token');
         localStorage.removeItem('expire');
+        localStorage.removeItem('userId');
     }
 
     private getAUthData()
     {
         const token = localStorage.getItem('token');
         const expirationDate = localStorage.getItem('expire');
+        const userId = localStorage.getItem('userId');
 
         if(!token || !expirationDate)
         {
@@ -128,7 +145,8 @@ export class AuthService {
 
         return {
             token: token,
-            expirationDate: new Date(expirationDate)
+            expirationDate: new Date(expirationDate),
+            userId: userId,
         }
     }
 }
