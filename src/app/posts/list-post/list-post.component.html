@@ -3,22 +3,35 @@
 <mat-spinner *ngIf = "isLoading"></mat-spinner>
 
 <mat-accordion multi = "true" *ngIf = "posts.length > 0 && !isLoading">
-    <mat-expansion-panel *ngFor = "let post of posts">
-      <mat-expansion-panel-header>
-          {{post.title}}
-      </mat-expansion-panel-header>
+    <mat-card *ngFor = "let post of posts">
+     
+      <h4> {{post.title}}</h4>
+      <hr>
+      <br>
 
       <div class="image-view">
          <img src="{{post.imagePath}}" alt="post.titile">
       </div>
+      <br>
+      <h6>Descriptions of post:</h6>
+      <br>
         <p>
           {{post.content}}
         </p>
-        <mat-action-row *ngIf = "userIsAuthenticated && userId === post.creator">
-          <a mat-button color = "primary" [routerLink] = "['/edit', post.id]">EDIT</a>
-          <button mat-button color = 'warn' (click) = "onDelete(post.id)">DELETE</button>
-        </mat-action-row>
-      </mat-expansion-panel>
+        <br>
+
+        <mat-expansion-panel *ngIf = "userIsAuthenticated && userId === post.creator">
+          <mat-expansion-panel-header>
+            Edit of Delete post
+          </mat-expansion-panel-header>
+          <mat-action-row >
+            <a mat-button color = "primary" [routerLink] = "['/edit', post.id]">EDIT</a>
+            <button mat-button color = 'warn' (click) = "onDelete(post.id)">DELETE</button>
+          </mat-action-row>
+        </mat-expansion-panel>
+        <br>
+        <br>
+      </mat-card>
 </mat-accordion>
 
 <mat-paginator [length] = "totalPost" [pageSize] = "postPerPage" 

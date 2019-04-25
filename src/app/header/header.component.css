@@ -21,3 +21,8 @@ a{
 ul {
     display: flex;
 }
+
+mat-toolbar[color="warn"] {
+    position: sticky;
+    top: var(--default-height);
+  }
