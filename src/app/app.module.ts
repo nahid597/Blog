@@ -9,6 +9,7 @@ import{
    MatProgressSpinnerModule,
    MatPaginatorModule,
    MatCheckboxModule,
+   MatDialogModule,
 
   } from '@angular/material';
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
@@ -24,6 +25,8 @@ import { AppRoutingModule } from './app-routing.module';
 import { LoginComponent } from './auth/login/login.component';
 import { SignupComponent } from './auth/signup/signup.component';
 import { AuthInterceptor } from './auth/auth-interceptor';
+import { ErrorInterceptor } from 'src/error-interceptor';
+import { ErrorComponent } from './Error/error.component';
 
 
 
@@ -34,7 +37,8 @@ import { AuthInterceptor } from './auth/auth-interceptor';
     HeaderComponent,
     ListPostComponent,
     LoginComponent,
-    SignupComponent
+    SignupComponent,
+    ErrorComponent
   ],
   imports: [
     BrowserModule,
@@ -50,10 +54,15 @@ import { AuthInterceptor } from './auth/auth-interceptor';
     MatPaginatorModule,
     HttpClientModule,
     MatProgressSpinnerModule,
-    MatCheckboxModule
+    MatCheckboxModule,
+    MatDialogModule
     
   ],
-  providers: [{provide: HTTP_INTERCEPTORS , useClass: AuthInterceptor, multi: true}],
+  providers: [
+    {provide: HTTP_INTERCEPTORS , useClass: AuthInterceptor, multi: true},
+    {provide: HTTP_INTERCEPTORS , useClass: ErrorInterceptor, multi: true},
+  ],
+  entryComponents: [ErrorComponent],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

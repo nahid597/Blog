@@ -22,7 +22,7 @@
 
         <mat-expansion-panel *ngIf = "userIsAuthenticated && userId === post.creator">
           <mat-expansion-panel-header>
-            Edit of Delete post
+            Edit or Delete post
           </mat-expansion-panel-header>
           <mat-action-row >
             <a mat-button color = "primary" [routerLink] = "['/edit', post.id]">EDIT</a>
