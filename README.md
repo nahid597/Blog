@@ -10,12 +10,13 @@ This project was generated with [Angular CLI](https://github.com/angular/angular
 
 Using this application i use
 
-1.Node js
-2.Express js
-3.MongoDB
-4.Angular js
-5.HTML5
-6.CSS3
+1.Node js 
+2. Express js 
+3. MongoDB 
+4. Angular js 
+5. HTML5 
+6. CSS3 
+
 
 ## Development server
 
